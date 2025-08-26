@@ -1,41 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { SafeAreaView, FlatList, Text } from 'react-native';
-import CourseCard, { CourseCardProps } from '../components/CourseCard';
-import { Course } from '../types';
+import React from "react";
+import { View, Text, Image, StyleSheet } from "react-native";
 
-export default function CoursesScreen() {
-  const [courses, setCourses] = useState<Course[]>([]);
-
-  useEffect(() => {
-    fetch('http://192.168.1.10:8080/courses')
-      .then(res => res.json())
-      .then(setCourses)
-      .catch(() => setCourses([]));
-  }, []);
-
-  return (
-    <SafeAreaView>
-      <Text style={{ fontSize: 24, fontWeight: 'bold', margin: 16 }}>Chương trình Đào tạo</Text>
-      <FlatList
-        data={courses}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <CourseCard
-            thumbnail={item.thumbnail}
-            category={item.category}
-            title={item.title}
-            description={item.description}
-            mentorAvatars={item.mentorAvatars}
-          />
-        )}
-      />
-    </SafeAreaView>
-  );
+export interface CourseCardProps {
+  thumbnail: string;
+  category: string;
+  title: string;
+  description: string;
+  mentorAvatars: string[];
 }
-
-import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
-import { Course } from '../types';
 
 export default function CourseCard({
   thumbnail,
@@ -43,7 +15,7 @@ export default function CourseCard({
   title,
   description,
   mentorAvatars,
-}: Course) {
+}: CourseCardProps) {
   return (
     <View style={styles.card}>
       <Image source={{ uri: thumbnail }} style={styles.thumbnail} />
@@ -65,22 +37,22 @@ const styles = StyleSheet.create({
   card: {
     padding: 16,
     margin: 8,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderRadius: 16,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOpacity: 0.08,
     shadowRadius: 8,
     elevation: 2,
   },
   thumbnail: {
-    width: '100%',
+    width: "100%",
     height: 120,
     borderRadius: 12,
     marginBottom: 8,
   },
   badge: {
-    alignSelf: 'flex-start',
-    backgroundColor: '#e0e7ff',
+    alignSelf: "flex-start",
+    backgroundColor: "#e0e7ff",
     borderRadius: 8,
     paddingHorizontal: 8,
     paddingVertical: 2,
@@ -88,22 +60,22 @@ const styles = StyleSheet.create({
   },
   category: {
     fontSize: 12,
-    color: '#3b82f6',
-    fontWeight: 'bold',
+    color: "#3b82f6",
+    fontWeight: "bold",
   },
   title: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginVertical: 4,
-    color: '#222',
+    color: "#222",
   },
   description: {
     fontSize: 14,
-    color: '#444',
+    color: "#444",
     marginBottom: 8,
   },
   avatars: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginTop: 8,
   },
   avatar: {
@@ -112,6 +84,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginRight: 6,
     borderWidth: 1,
-    borderColor: '#e5e7eb',
+    borderColor: "#e5e7eb",
   },
 });
